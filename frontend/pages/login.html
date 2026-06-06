@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agile Project | Login</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">JobSentinel – Your career’s first line of Defense. </p>
+
+        <form id="loginForm" method="POST" action="/login" autocomplete="on">
+            <div id="message" style="display: none; padding: 12px; margin-bottom: 16px; border-radius: 8px; text-align: center;"></div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email" autocomplete="username" autocapitalize="off" spellcheck="false" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter password" autocomplete="current-password" readonly onfocus="enablePasswordInput()" onclick="enablePasswordInput()" required>
+            </div>
+
+            <div class="forgot-password">
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary">Login</button>
+
+            <p class="switch">
+                Don't have an account?
+                <a href="signup.html">Sign Up</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function enablePasswordInput() {
+        const passwordInput = document.getElementById('password');
+        if (!passwordInput) return;
+
+        passwordInput.removeAttribute('readonly');
+    }
+
+    function resetLoginForm() {
+        const form = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('password');
+        if (!form || !passwordInput) return;
+
+        form.reset();
+        passwordInput.value = '';
+        passwordInput.setAttribute('readonly', 'readonly');
+    }
+
+    window.addEventListener('load', resetLoginForm);
+    window.addEventListener('pageshow', resetLoginForm);
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                showMessage(data.error || 'Login failed', 'error');
+                return;
+            }
+
+            const role = data?.user?.role;
+
+            // Optional: store basic user info for other pages
+            try {
+                localStorage.setItem('userData', JSON.stringify({
+                    name: data.user.full_name,
+                    email: data.user.email,
+                    role: role,
+                    accountType: role,
+                }));
+            } catch (err) {
+                // ignore localStorage issues
+            }
+
+            if (role === 'Admin') {
+                window.location.href = 'admin_homepage.html';
+            } else if (role === 'Recruiter') {
+                window.location.href = 'recruiter_homepage.html';
+            } else if (role === 'Job Seeker') {
+                window.location.href = 'job_seeker_homepage.html';
+            } else {
+                showMessage('Login succeeded but role is invalid', 'error');
+            }
+        } catch (err) {
+            showMessage('Network error. Please check if the server is running.', 'error');
+        }
+    });
+
+    function showMessage(text, type) {
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = text;
+        messageDiv.style.display = 'block';
+        messageDiv.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+        messageDiv.style.color = '#ffffff';
+    }
+</script>
+
+</body>
+</html>

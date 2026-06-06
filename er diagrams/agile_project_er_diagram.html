@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Project ER Diagram</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; text-align: center; background: #fff; }
+        h1 { margin: 10px 0 4px; font-size: 24px; }
+        p { margin: 0 0 8px; font-size: 13px; }
+        svg { width: 100%; max-width: 1200px; height: auto; display: block; margin: 0 auto 16px; }
+        .entity { font-size: 22px; font-weight: bold; }
+        .attr { font-size: 13px; }
+        .note { font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Agile Project ER Diagram</h1>
+    <p>Three separate ER views based on <code>data/agile_project.sql</code></p>
+
+    <svg viewBox="0 0 1200 2140" aria-label="Separate ER diagrams for agile_project tables">
+        <text x="600" y="35" text-anchor="middle" class="entity">users</text>
+        <rect x="450" y="80" width="300" height="70" fill="white" stroke="black" stroke-width="2"></rect>
+        <text x="600" y="123" text-anchor="middle" class="entity">users</text>
+
+        <ellipse cx="180" cy="95" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <line x1="145" y1="108" x2="215" y2="108" stroke="black" stroke-width="1.5"></line>
+        <text x="180" y="96" text-anchor="middle" class="attr">id</text>
+        <line x1="300" y1="95" x2="450" y2="103" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="180" cy="170" rx="150" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="180" y="175" text-anchor="middle" class="attr">public_user_id</text>
+        <line x1="330" y1="170" x2="450" y2="118" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="180" cy="245" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="180" y="250" text-anchor="middle" class="attr">full_name</text>
+        <line x1="310" y1="245" x2="450" y2="132" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="95" rx="135" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="100" text-anchor="middle" class="attr">email</text>
+        <line x1="885" y1="95" x2="750" y2="103" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="170" rx="150" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="175" text-anchor="middle" class="attr">password_hash</text>
+        <line x1="870" y1="170" x2="750" y2="118" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="245" rx="110" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="250" text-anchor="middle" class="attr">role</text>
+        <line x1="910" y1="245" x2="750" y2="132" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="600" cy="255" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="600" y="260" text-anchor="middle" class="attr">created_at</text>
+        <line x1="600" y1="227" x2="600" y2="150" stroke="black" stroke-width="1.5"></line>
+
+        <line x1="80" y1="340" x2="1120" y2="340" stroke="black" stroke-width="1"></line>
+
+        <text x="600" y="390" text-anchor="middle" class="entity">scam_reports</text>
+        <rect x="450" y="500" width="300" height="70" fill="white" stroke="black" stroke-width="2"></rect>
+        <text x="600" y="543" text-anchor="middle" class="entity">scam_reports</text>
+
+        <ellipse cx="180" cy="465" rx="100" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <line x1="150" y1="478" x2="210" y2="478" stroke="black" stroke-width="1.5"></line>
+        <text x="180" y="466" text-anchor="middle" class="attr">id</text>
+        <line x1="280" y1="465" x2="450" y2="515" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="180" cy="545" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="180" y="550" text-anchor="middle" class="attr">job_title</text>
+        <line x1="300" y1="545" x2="450" y2="535" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="180" cy="625" rx="150" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="180" y="630" text-anchor="middle" class="attr">company_name</text>
+        <line x1="330" y1="625" x2="450" y2="555" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="180" cy="705" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="180" y="710" text-anchor="middle" class="attr">description</text>
+        <line x1="310" y1="705" x2="450" y2="570" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="465" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="470" text-anchor="middle" class="attr">reported_by</text>
+        <line x1="890" y1="465" x2="750" y2="515" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="545" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="550" text-anchor="middle" class="attr">risk_score</text>
+        <line x1="900" y1="545" x2="750" y2="535" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="625" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="630" text-anchor="middle" class="attr">risk_level</text>
+        <line x1="900" y1="625" x2="750" y2="555" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1020" cy="705" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1020" y="710" text-anchor="middle" class="attr">is_flagged</text>
+        <line x1="900" y1="705" x2="750" y2="570" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="600" cy="385" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="600" y="390" text-anchor="middle" class="attr">created_at</text>
+        <line x1="600" y1="413" x2="600" y2="500" stroke="black" stroke-width="1.5"></line>
+
+        <line x1="80" y1="790" x2="1120" y2="790" stroke="black" stroke-width="1"></line>
+
+        <text x="600" y="840" text-anchor="middle" class="entity">recruiter_verifications</text>
+        <rect x="420" y="965" width="360" height="70" fill="white" stroke="black" stroke-width="2"></rect>
+        <text x="600" y="1008" text-anchor="middle" class="entity">recruiter_verifications</text>
+
+        <ellipse cx="190" cy="895" rx="100" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <line x1="160" y1="908" x2="220" y2="908" stroke="black" stroke-width="1.5"></line>
+        <text x="190" y="896" text-anchor="middle" class="attr">id</text>
+        <line x1="290" y1="895" x2="420" y2="980" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="190" cy="975" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="190" y="980" text-anchor="middle" class="attr">job_title</text>
+        <line x1="310" y1="975" x2="420" y2="995" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="190" cy="1055" rx="150" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="190" y="1060" text-anchor="middle" class="attr">company_name</text>
+        <line x1="340" y1="1055" x2="420" y2="1010" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="190" cy="1135" rx="115" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="190" y="1140" text-anchor="middle" class="attr">location</text>
+        <line x1="305" y1="1135" x2="420" y2="1025" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1010" cy="895" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1010" y="900" text-anchor="middle" class="attr">description</text>
+        <line x1="880" y1="895" x2="780" y2="980" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1010" cy="975" rx="145" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1010" y="980" text-anchor="middle" class="attr">recruiter_email</text>
+        <line x1="865" y1="975" x2="780" y2="995" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1010" cy="1055" rx="105" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1010" y="1060" text-anchor="middle" class="attr">status</text>
+        <line x1="905" y1="1055" x2="780" y2="1010" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="1010" cy="1135" rx="165" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="1010" y="1140" text-anchor="middle" class="attr">verification_id</text>
+        <line x1="845" y1="1135" x2="780" y2="1025" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="470" cy="1175" rx="130" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="470" y="1180" text-anchor="middle" class="attr">submitted_at</text>
+        <line x1="500" y1="1148" x2="545" y2="1035" stroke="black" stroke-width="1.5"></line>
+
+        <ellipse cx="730" cy="1175" rx="120" ry="28" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="730" y="1180" text-anchor="middle" class="attr">verified_at</text>
+        <line x1="700" y1="1148" x2="655" y2="1035" stroke="black" stroke-width="1.5"></line>
+
+        <line x1="80" y1="1280" x2="1120" y2="1280" stroke="black" stroke-width="1"></line>
+
+        <rect x="310" y="1340" width="580" height="70" fill="white" stroke="black" stroke-width="2"></rect>
+        <text x="600" y="1382" text-anchor="middle" class="note">No foreign key relationships are defined in the SQL file.</text>
+
+        <polygon points="600,1495 680,1575 600,1655 520,1575" fill="white" stroke="black" stroke-width="2"></polygon>
+        <text x="600" y="1568" text-anchor="middle" class="attr">No Defined</text>
+        <text x="600" y="1592" text-anchor="middle" class="attr">Relationships</text>
+
+        <line x1="600" y1="1410" x2="600" y2="1460" stroke="black" stroke-width="1.5"></line>
+        <line x1="600" y1="1690" x2="600" y2="1750" stroke="black" stroke-width="1.5"></line>
+
+        <rect x="150" y="1750" width="900" height="260" fill="white" stroke="black" stroke-width="2"></rect>
+        <line x1="150" y1="1800" x2="1050" y2="1800" stroke="black" stroke-width="1.5"></line>
+        <line x1="360" y1="1750" x2="360" y2="2010" stroke="black" stroke-width="1.5"></line>
+        <line x1="620" y1="1750" x2="620" y2="2010" stroke="black" stroke-width="1.5"></line>
+        <line x1="150" y1="1850" x2="1050" y2="1850" stroke="black" stroke-width="1"></line>
+        <line x1="150" y1="1900" x2="1050" y2="1900" stroke="black" stroke-width="1"></line>
+        <line x1="150" y1="1950" x2="1050" y2="1950" stroke="black" stroke-width="1"></line>
+
+        <text x="255" y="1782" text-anchor="middle" class="note">Symbol Name</text>
+        <text x="490" y="1782" text-anchor="middle" class="note">Symbol</text>
+        <text x="835" y="1782" text-anchor="middle" class="note">Represents</text>
+
+        <text x="255" y="1832" text-anchor="middle" class="note">Rectangle</text>
+        <rect x="455" y="1814" width="70" height="24" fill="white" stroke="black" stroke-width="2"></rect>
+        <text x="835" y="1832" text-anchor="middle" class="note">Entity</text>
+
+        <text x="255" y="1882" text-anchor="middle" class="note">Ellipse</text>
+        <ellipse cx="490" cy="1878" rx="38" ry="18" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <text x="835" y="1882" text-anchor="middle" class="note">Attribute</text>
+
+        <text x="255" y="1932" text-anchor="middle" class="note">Diamond</text>
+        <polygon points="490,1912 525,1932 490,1952 455,1932" fill="white" stroke="black" stroke-width="2"></polygon>
+        <text x="835" y="1932" text-anchor="middle" class="note">Relationship</text>
+
+        <text x="255" y="1982" text-anchor="middle" class="note">Key Attribute</text>
+        <ellipse cx="490" cy="1978" rx="48" ry="18" fill="white" stroke="black" stroke-width="2"></ellipse>
+        <line x1="465" y1="1988" x2="515" y2="1988" stroke="black" stroke-width="1.5"></line>
+        <text x="835" y="1982" text-anchor="middle" class="note">Ellipse with line inside</text>
+    </svg>
+</body>
+</html>

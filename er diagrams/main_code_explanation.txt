@@ -1,0 +1,110 @@
+﻿JOB SENTINEL - MAIN CODE EXPLANATION
+
+1) Libraries Used (what they do and how this project uses them)
+
+Python external libraries (from requirements.txt):
+- Flask:
+  Used to build the backend web API. In backend/app.py, decorators like @app.route(...) create endpoints such as /login, /signup, /analyze-job, and /reports.
+- flask-cors (CORS):
+  Allows frontend HTML pages to call backend APIs even when served from different origins/ports. CORS(app) is enabled near app initialization.
+- mysql-connector-python:
+  Connects Python to MySQL. The function get_db_connection() uses mysql.connector.connect(...) with DB_CONFIG to run SQL queries for users, reports, and verification records.
+- Werkzeug:
+  Provides secure password utilities. generate_password_hash(...) is used during signup/reset-password, and check_password_hash(...) is used during login.
+
+Python standard libraries used in backend logic:
+- re: Regex matching for email validation and scam-pattern detection.
+- os: Reads environment variables and builds file paths.
+- random: Utility import for random behaviors.
+- csv: Reads known scam data from fake_job_postings.csv.
+- datetime: Creates date parts for verification IDs and timestamps.
+- uuid: Generates short unique IDs (public_user_id and verification IDs).
+
+Frontend library/CDN:
+- Remix Icon (CSS CDN):
+  Used in frontend/pages/homepage.html for feature icons (shield/search/lock).
+
+2) Main Code Structure
+
+Primary backend files:
+- app.py (root): Entry point. Imports app from backend.app and runs Flask server on port 5000.
+- backend/app.py: Core API server and database logic.
+- backend/scam_detection.py: Scam scoring engine (rules + risk calculation).
+- data/agile_project.sql: Database schema for users, scam_reports, and recruiter_verifications.
+
+Primary frontend file:
+- frontend/pages/homepage.html: Landing page UI and login redirection for scan action.
+
+3) How the Main Backend Code Works (backend/app.py)
+
+A) App setup and configuration
+- Creates Flask app and enables CORS.
+- Reads DB settings from environment variables with defaults:
+  MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE.
+- Defines hardcoded admin users for admin login.
+
+B) Database helpers and table preparation
+- get_db_connection(): Central MySQL connection helper.
+- table_exists(...) and column_exists(...): Safe checks for schema upgrades.
+- ensure_* functions:
+  - ensure_scam_reports_table()
+  - ensure_recruiter_verifications_table()
+  - ensure_users_admin_columns()
+  - ensure_scam_patterns_table()
+  These create/upgrade tables and columns if missing, so APIs continue to work even after schema changes.
+
+C) Input validation and shared utilities
+- validate_email(...): Regex email format check.
+- validate_text_field(...): Required + min/max length validation.
+- generate_public_id(...) and generate_verification_id(...): Human-readable unique IDs.
+- normalize_record(s): Converts datetime values to JSON-safe ISO strings.
+
+D) Scam detection integration
+- analyze_job_with_active_patterns(...): Calls analyze_job_risk(...) from backend/scam_detection.py.
+- Also adds custom patterns stored in DB (scam_patterns table) to base rule set.
+
+E) Main API routes
+- /health (GET): Health check.
+- /signup (POST): Validates user fields, hashes password, inserts user.
+- /login (POST): Validates credentials, supports hardcoded admin and DB users.
+- /profile (GET): Returns profile by email.
+- /forgot-password (POST): Verifies user exists by email.
+- /reset-password (POST): Stores new hashed password.
+- /analyze-job (POST): Returns risk_score, risk_level, red_flags.
+- /report-job (POST): Saves suspicious job reports with analysis.
+- /reports (GET): Admin metrics (scams/users/blocked recruiters/pending reviews).
+- Pattern management:
+  /patterns (GET), /add-pattern (POST), /update-pattern (PUT), /delete-pattern (DELETE).
+
+4) Scam Detection Engine (backend/scam_detection.py)
+
+- SCAM_RULES defines weighted patterns such as:
+  unrealistic earnings, upfront fee requests, urgency language, no-interview claims, sensitive data requests.
+- analyze_job_risk(...) flow:
+  1. Normalize text (job description).
+  2. Match regex rules and add risk points.
+  3. Add extra checks (shortened URL, WhatsApp/Telegram redirects, obfuscated strings, repetitive low-detail text).
+  4. Clamp score to 100.
+  5. Map score to level:
+     - High: >= 60
+     - Medium: >= 30
+     - Low: < 30
+  6. Return JSON with score, level, and red flags.
+
+5) Homepage Code Overview (frontend/pages/homepage.html)
+
+- Contains all UI in one file (HTML + CSS + small JS).
+- Top bar shows logo and links to login/signup.
+- Main section has branding, feature bullets, and a textarea with "Check Scam" button.
+- Current behavior: button does not call backend directly on this page.
+  It runs goToLogin() and redirects to login.html after a short loading effect.
+- Styling uses gradients, glow effects, responsive layout, and Remix Icon classes.
+
+6) End-to-End Flow Summary
+
+1. User signs up/login from frontend pages.
+2. Backend validates input and stores/retrieves users from MySQL.
+3. User submits a job description to scan (on authenticated pages).
+4. Backend scores scam risk using regex rules + optional DB custom patterns.
+5. System returns risk level and red flags; suspicious posts can be reported.
+6. Admin endpoints aggregate scam statistics and manage detection patterns.

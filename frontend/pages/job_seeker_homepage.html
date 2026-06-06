@@ -1,0 +1,1208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Dashboard - jobSentinel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-header img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .logo-header .app-name {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .top-bar .profile-button {
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-bar button {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #38bdf8;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .top-bar button:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            padding: 18px 20px;
+            border-radius: 14px;
+            background: linear-gradient(160deg, rgba(30, 41, 59, 0.78), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            box-shadow: 0 14px 30px rgba(2, 8, 23, 0.22);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #7dd3fc;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .stat-copy {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-subtitle {
+            color: #94a3b8;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .tips-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .tip-pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.24);
+            color: #bae6fd;
+            font-size: 12px;
+        }
+
+        /* Job Description Input (US-1) */
+        .job-description-section {
+            grid-column: 1 / -1;
+        }
+
+        .job-url-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin-bottom: 15px;
+        }
+
+        .job-url-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .job-url-input::placeholder {
+            color: #64748b;
+        }
+
+        .job-description-input {
+            width: 100%;
+            min-height: 200px;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .job-description-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .job-description-input::placeholder {
+            color: #64748b;
+        }
+
+        .textarea-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .check-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-button:disabled,
+        .report-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-info {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #bae6fd;
+        }
+
+        .status-success {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #bbf7d0;
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fecaca;
+        }
+
+        .check-button:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        .secondary-button {
+            padding: 16px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(15, 23, 42, 0.55);
+            color: #e2e8f0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-button:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1000px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-button {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #ef4444;
+            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: #ef4444;
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        /* Modal Content Grid */
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Risk Score Display (US-2) */
+        .risk-score-display {
+            text-align: center;
+        }
+
+        .risk-score-circle {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #0f172a;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
+            position: relative;
+        }
+
+        .risk-score-label {
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-top: 15px;
+        }
+
+        .risk-status {
+            margin-top: 20px;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .risk-low {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .risk-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        /* Red Flags Section (US-3) */
+        .red-flags-section {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .red-flags-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .red-flag-item {
+            padding: 18px;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .red-flag-item:hover {
+            background: rgba(239, 68, 68, 0.15);
+            transform: translateX(5px);
+        }
+
+        .red-flag-title {
+            font-weight: 600;
+            color: #ef4444;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .red-flag-description {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .no-flags {
+            text-align: center;
+            color: #64748b;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        /* Known Scam Jobs Section (US-5) */
+        .known-scams-section {
+            grid-column: 1 / -1;
+        }
+
+        .section-header-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .section-header-inline .card-title {
+            margin-bottom: 0;
+        }
+
+        .section-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .list-count {
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #fecaca;
+            font-size: 12px;
+        }
+
+        .scam-jobs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .scam-job-item {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .scam-job-item:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: #ef4444;
+            transform: translateX(5px);
+        }
+
+        .scam-job-title {
+            font-weight: 600;
+            color: #ef4444;
+            margin-bottom: 6px;
+        }
+
+        .scam-job-company {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .scam-job-field {
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .no-scams {
+            text-align: center;
+            color: #64748b;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        /* Report Button (US-4) */
+        .report-section {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .report-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            text-align: left;
+            margin-top: 24px;
+        }
+
+        .report-form .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .report-input,
+        .report-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .report-textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .report-input:focus,
+        .report-textarea:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.08);
+        }
+
+        .report-button {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .report-button:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.5);
+        }
+
+        .report-note {
+            margin-top: 14px;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Modal Scrollbar */
+        .modal-content::-webkit-scrollbar,
+        .red-flags-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track,
+        .red-flags-section::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb,
+        .red-flags-section::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.5);
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover,
+        .red-flags-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 189, 248, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .mini-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .modal-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .report-form {
+                grid-template-columns: 1fr;
+            }
+
+            .report-form .full-width {
+                grid-column: auto;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .section-header-inline {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar {
+                padding: 15px 20px;
+            }
+
+            .logo-header .app-name {
+                font-size: 20px;
+            }
+
+            .top-bar button {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .risk-score-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 40px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+        }
+
+        .logo-header img {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Scrollbar Styling */
+        .scam-jobs-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scam-jobs-list::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 4px;
+        }
+
+        .scam-jobs-list::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.5);
+            border-radius: 4px;
+        }
+
+        .scam-jobs-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 189, 248, 0.7);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <div class="top-bar">
+        <div class="logo-header">
+            <img src="../assets/images/logo.png" alt="jobSentinel Logo" onerror="this.style.display='none'">
+            <span class="app-name">jobSentinel</span>
+        </div>
+        <div class="profile-button">
+            <a href="profile.html"><button>Profile</button></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1 class="page-title">Job Seeker Dashboard</h1>
+            <p class="page-subtitle">Protect yourself from job scams and verify opportunities safely</p>
+        </div>
+
+        <div class="mini-stats">
+            <div class="stat-card">
+                <div class="stat-label">Scam Check</div>
+                <div class="stat-value">Paste and verify</div>
+                <div class="stat-copy">Run a quick risk check on a job description before you apply.</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Known Scams</div>
+                <div class="stat-value">Live watchlist</div>
+                <div class="stat-copy">Review suspicious job patterns already found in reports and the dataset.</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Community Reports</div>
+                <div class="stat-value">Anonymous flagging</div>
+                <div class="stat-copy">Report risky postings to help other job seekers without exposing your identity.</div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- US-1: Job Description Input -->
+            <div class="card job-description-section">
+                <h2 class="card-title">Check Job Description</h2>
+                <p class="card-subtitle">Paste the full job text below. Include salary claims, interview details, onboarding steps, and contact instructions for a better scam check.</p>
+                <div class="tips-row">
+                    <div class="tip-pill">Good for copy-pasted job posts</div>
+                    <div class="tip-pill">Highlights red flags instantly</div>
+                    <div class="tip-pill">Shows risk score and reasons</div>
+                </div>
+                <textarea 
+                    class="job-description-input" 
+                    id="jobDescription"
+                    placeholder="Paste the job description here. Example: salary details, interview process, joining instructions, payment requests, contact details..."></textarea>
+                <div class="textarea-footer">
+                    <span>Tip: longer descriptions usually produce better risk analysis.</span>
+                    <span id="descriptionCounter">0 characters</span>
+                </div>
+                <div class="button-row">
+                    <button class="check-button" onclick="checkJobDescription()">Check for Scam</button>
+                    <button class="secondary-button" type="button" onclick="clearJobDescription()">Clear</button>
+                </div>
+                <div id="analysisStatus" class="status-message"></div>
+            </div>
+
+
+            <!-- US-5: Known Scam Jobs -->
+            <div class="card known-scams-section">
+                <div class="section-header-inline">
+                    <h2 class="card-title">Known Scam Jobs</h2>
+                    <div class="section-actions">
+                        <div class="list-count" id="knownScamCount">Loading...</div>
+                        <button class="secondary-button" type="button" onclick="loadKnownScams()">Refresh List</button>
+                    </div>
+                </div>
+                <p class="card-subtitle">This list combines dataset-backed scam postings with high-risk reports submitted through the portal.</p>
+                <div class="scam-jobs-list" id="scamJobsList">
+                    <div class="no-scams">Loading known scam jobs...</div>
+                </div>
+            </div>
+
+            <!-- US-4: Report Job as Fraud -->
+            <div class="card report-section">
+                <h2 class="card-title">Report Fraudulent Job</h2>
+                <p class="card-subtitle">Found a suspicious job posting? Share the key details below. High-risk reports are added to the known scam list automatically.</p>
+                <div class="report-form">
+                    <input id="reportJobTitle" class="report-input" type="text" placeholder="Job title">
+                    <input id="reportCompanyName" class="report-input" type="text" placeholder="Company name">
+                    <input id="reportSource" class="report-input full-width" type="text" placeholder="Source for reporting fraud">
+                    <textarea id="reportDescription" class="report-textarea full-width" placeholder="Describe why this job looks suspicious"></textarea>
+                    <button class="report-button full-width" id="reportButton" onclick="reportJob()">Report Job as Fraud</button>
+                </div>
+                <p class="report-note">Your report source is stored for moderation, but flagged jobs appear anonymously in the public known scam list.</p>
+                <div id="reportStatus" class="status-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Score & Red Flags Modal -->
+    <div id="analysisModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Analysis Results</h2>
+                <button class="close-button" onclick="closeAnalysisModal()">&times;</button>
+            </div>
+            
+            <div class="modal-grid">
+                <!-- Risk Score Display (US-2) -->
+                <div class="risk-score-display">
+                    <h3 style="color: #38bdf8; font-size: 20px; margin-bottom: 20px; text-align: center;">Scam Risk Score</h3>
+                    <div id="riskScoreDisplay">
+                        <div class="risk-score-circle" id="riskScoreCircle">--</div>
+                        <div class="risk-score-label">Risk Score</div>
+                        <div class="risk-status" id="riskStatus" style="display: none;">No analysis yet</div>
+                    </div>
+                </div>
+
+                <!-- Red Flag Explanations (US-3) -->
+                <div class="red-flags-section">
+                    <h3 style="color: #ef4444; font-size: 20px; margin-bottom: 20px;">Red Flag Explanations</h3>
+                    <div class="red-flags-list" id="redFlagsList">
+                        <div class="no-flags">No red flags detected yet.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:5000';
+
+        function setStatusMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.className = 'status-message show';
+            element.classList.add(`status-${type}`);
+            element.textContent = message;
+        }
+
+        function clearStatusMessage(elementId) {
+            const element = document.getElementById(elementId);
+            element.className = 'status-message';
+            element.textContent = '';
+        }
+
+        function updateDescriptionCounter() {
+            const description = document.getElementById('jobDescription').value || '';
+            document.getElementById('descriptionCounter').textContent = `${description.length} characters`;
+        }
+
+        function clearJobDescription() {
+            document.getElementById('jobDescription').value = '';
+            updateDescriptionCounter();
+            clearStatusMessage('analysisStatus');
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Modal Functions
+        function openAnalysisModal() {
+            const modal = document.getElementById('analysisModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAnalysisModal() {
+            const modal = document.getElementById('analysisModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function loadKnownScams() {
+            const scamJobsList = document.getElementById('scamJobsList');
+            const knownScamCount = document.getElementById('knownScamCount');
+
+            try {
+                knownScamCount.textContent = 'Refreshing...';
+                const response = await fetch(`${API_BASE_URL}/known-scams`);
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to load known scam jobs.');
+                }
+
+                const knownScams = result.known_scams || [];
+                scamJobsList.innerHTML = '';
+
+                if (!knownScams.length) {
+                    knownScamCount.textContent = '0 listings';
+                    scamJobsList.innerHTML = '<div class="no-scams">No known scam jobs found.</div>';
+                    return;
+                }
+
+                knownScamCount.textContent = `${knownScams.length} listings`;
+                knownScams.slice(0, 20).forEach(job => {
+                    const scamItem = document.createElement('div');
+                    scamItem.className = 'scam-job-item';
+
+                    const title = job.job_title || 'Unknown title';
+                    const employmentType = job.employment_type || 'Not specified';
+                    const location = job.location || 'Not specified';
+                    const hasCompanyLogo = job.has_company_logo || 'No';
+                    const sourceOrLocation = location && location !== 'Not specified'
+                        ? `Location: ${escapeHtml(location)}`
+                        : `Source: ${escapeHtml(job.reported_by || 'Anonymous')}`;
+
+                    scamItem.innerHTML = `
+                        <div class="scam-job-title">${escapeHtml(title)}</div>
+                        <div class="scam-job-field">Employment Type: ${escapeHtml(employmentType)}</div>
+                        <div class="scam-job-field">${sourceOrLocation}</div>
+                        <div class="scam-job-field">Has Company Logo: ${escapeHtml(hasCompanyLogo)}</div>
+                    `;
+
+                    scamJobsList.appendChild(scamItem);
+                });
+            } catch (error) {
+                knownScamCount.textContent = 'Unavailable';
+                scamJobsList.innerHTML = '<div class="no-scams">Unable to load known scam jobs. Make sure the Flask server is running.</div>';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('analysisModal');
+            if (event.target === modal) {
+                closeAnalysisModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeAnalysisModal();
+            }
+        });
+
+        async function checkJobDescription() {
+            const jobDescription = document.getElementById('jobDescription').value.trim();
+            const checkButton = document.querySelector('.check-button');
+            
+            if (!jobDescription) {
+                alert('Please paste a job description first.');
+                return;
+            }
+
+            clearStatusMessage('analysisStatus');
+            checkButton.disabled = true;
+            checkButton.textContent = 'Analyzing...';
+            setStatusMessage('analysisStatus', 'Checking the description against known scam patterns...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/analyze-job`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        job_description: jobDescription
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to analyze the job description.');
+                }
+
+                displayRiskScore(result.risk_score, result.risk_level);
+                displayRedFlags(result.red_flags || []);
+                setStatusMessage('analysisStatus', `Analysis complete. Risk score: ${result.risk_score} (${result.risk_level}).`, 'success');
+                openAnalysisModal();
+            } catch (error) {
+                setStatusMessage('analysisStatus', error.message || 'Unable to connect to the analysis service.', 'error');
+            } finally {
+                checkButton.disabled = false;
+                checkButton.textContent = 'Check for Scam';
+            }
+        }
+
+        function displayRiskScore(score, riskLevel) {
+            const riskScoreCircle = document.getElementById('riskScoreCircle');
+            const riskStatus = document.getElementById('riskStatus');
+            
+            riskScoreCircle.textContent = score;
+            riskStatus.style.display = 'inline-block';
+            
+            riskStatus.className = 'risk-status';
+            if (riskLevel === 'Low') {
+                riskStatus.textContent = 'Low Risk';
+                riskStatus.classList.add('risk-low');
+                riskScoreCircle.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+            } else if (riskLevel === 'Medium') {
+                riskStatus.textContent = 'Medium Risk';
+                riskStatus.classList.add('risk-medium');
+                riskScoreCircle.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            } else {
+                riskStatus.textContent = 'High Risk';
+                riskStatus.classList.add('risk-high');
+                riskScoreCircle.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            }
+        }
+
+        function displayRedFlags(redFlags) {
+            const redFlagsList = document.getElementById('redFlagsList');
+            redFlagsList.innerHTML = '';
+
+            if (!redFlags.length) {
+                redFlagsList.innerHTML = '<div class="no-flags">No significant red flags detected. This job posting appears to be relatively safe.</div>';
+                return;
+            }
+
+            redFlags.forEach(flag => {
+                const flagItem = document.createElement('div');
+                flagItem.className = 'red-flag-item';
+                flagItem.innerHTML = `
+                    <div class="red-flag-title">Red Flag</div>
+                    <div class="red-flag-description">${flag}</div>
+                `;
+                redFlagsList.appendChild(flagItem);
+            });
+        }
+
+        async function reportJob() {
+            const reportButton = document.getElementById('reportButton');
+            const jobTitle = document.getElementById('reportJobTitle').value.trim();
+            const companyName = document.getElementById('reportCompanyName').value.trim();
+            const reportSource = document.getElementById('reportSource').value.trim();
+            const reportDescriptionField = document.getElementById('reportDescription');
+            const reportDescription = reportDescriptionField.value.trim() || document.getElementById('jobDescription').value.trim();
+
+            if (!jobTitle || !companyName || !reportSource || !reportDescription) {
+                setStatusMessage('reportStatus', 'Please fill in the job title, company name, source, and description before submitting.', 'error');
+                return;
+            }
+
+            clearStatusMessage('reportStatus');
+            reportButton.disabled = true;
+            reportButton.textContent = 'Submitting Report...';
+            setStatusMessage('reportStatus', 'Submitting your report to the backend...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/report-job`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        job_title: jobTitle,
+                        company_name: companyName,
+                        description: reportDescription,
+                        reported_by: reportSource
+                    })
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to submit the report.');
+                }
+
+                document.getElementById('reportJobTitle').value = '';
+                document.getElementById('reportCompanyName').value = '';
+                document.getElementById('reportSource').value = '';
+                reportDescriptionField.value = '';
+                updateDescriptionCounter();
+                if (result.flagged_as_fraud) {
+                    setStatusMessage(
+                        'reportStatus',
+                        `Report submitted. Risk score ${result.risk_score} (${result.risk_level}), so the job was flagged as fraud and added to the known scam list.`,
+                        'success'
+                    );
+                } else {
+                    setStatusMessage(
+                        'reportStatus',
+                        `Report submitted. Risk score ${result.risk_score} (${result.risk_level}), so the job was stored in the database but not flagged as fraud.`,
+                        'info'
+                    );
+                }
+                await loadKnownScams();
+            } catch (error) {
+                setStatusMessage('reportStatus', error.message || 'Unable to submit the report right now.', 'error');
+            } finally {
+                reportButton.disabled = false;
+                reportButton.textContent = 'Report Job as Fraud';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('jobDescription').addEventListener('input', updateDescriptionCounter);
+            updateDescriptionCounter();
+            loadKnownScams();
+        });
+    </script>
+
+</body>
+</html>

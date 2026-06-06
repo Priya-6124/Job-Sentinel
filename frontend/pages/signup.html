@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agile Project | Sign Up</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <a href="homepage.html" class="close-btn" aria-label="Close and go home">×</a>
+
+        <h2>Create Account</h2>
+        <p class="subtitle">Join the Scam-Free Job Platform</p>
+
+        <form id="signupForm" method="POST" action="/signup">
+            <div id="message" style="display: none; padding: 12px; margin-bottom: 16px; border-radius: 8px; text-align: center;"></div>
+            
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" id="full_name" placeholder="Enter full name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Create password" required>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>
+            </div>
+
+            <div class="input-group">
+                <label>Role</label>
+                <select name="role" id="role" required>
+                    <option value="">Select role</option>
+                    <option value="Job Seeker">Job Seeker</option>
+                    <option value="Recruiter">Recruiter</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Sign Up</button>
+
+            <p class="switch">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const messageDiv = document.getElementById('message');
+        messageDiv.style.display = 'none';
+        
+        const formData = {
+            full_name: document.getElementById('full_name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value,
+            confirm_password: document.getElementById('confirm_password').value,
+            role: document.getElementById('role').value
+        };
+        
+        // Client-side validation
+        if (formData.password !== formData.confirm_password) {
+            showMessage('Passwords do not match!', 'error');
+            return;
+        }
+        
+        if (formData.password.length < 6) {
+            showMessage('Password must be at least 6 characters long!', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('http://localhost:5000/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showMessage(data.message || 'Account created successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                showMessage(data.error || 'An error occurred. Please try again.', 'error');
+            }
+        } catch (error) {
+            showMessage('Network error. Please check if the server is running.', 'error');
+            console.error('Error:', error);
+        }
+    });
+    
+    function showMessage(text, type) {
+        const messageDiv = document.getElementById('message');
+        messageDiv.textContent = text;
+        messageDiv.style.display = 'block';
+        messageDiv.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+        messageDiv.style.color = '#ffffff';
+    }
+</script>
+
+</body>
+</html>
