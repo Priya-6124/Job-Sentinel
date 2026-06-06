@@ -1,79 +1,263 @@
-# Setup Instructions
+# 🛡️ Job Sentinel
 
-## Prerequisites
-1. Python 3.7 or higher installed
-2. MySQL server installed and running
-3. Database `agile_project` created with the `users` table
+A web-based platform designed to help job seekers identify fraudulent job postings and report suspicious recruitment activities. The system uses machine learning-based scam detection along with community reporting features to create a safer job search experience.
 
-## Database Setup
+## 📌 Project Overview
 
-Run these SQL commands in MySQL:
+Job Sentinel is an intelligent job scam detection platform that allows users to:
+
+* Detect potentially fraudulent job postings.
+* Report suspicious recruiters and job advertisements.
+* View scam analysis results instantly.
+* Maintain user profiles.
+* Provide a safer environment for online job searching.
+
+The platform combines a Flask backend, MySQL database, machine learning-based scam detection, and an interactive frontend.
+
+---
+
+## 🚀 Features
+
+### 👤 User Authentication
+
+* User Registration
+* Secure Login System
+* Profile Management
+* Password Reset Functionality
+
+### 🔍 Scam Detection
+
+* Analyze job descriptions using Machine Learning
+* Detect suspicious keywords and patterns
+* Provide scam probability predictions
+* Instant result generation
+
+### 🚨 Scam Reporting
+
+* Report fraudulent job postings
+* Maintain scam report records
+* Help protect other job seekers
+
+### 📊 Dashboard
+
+* Job Seeker Homepage
+* Recruiter Homepage
+* Admin Homepage
+* User Profile Management
+
+---
+
+## 🏗️ Project Structure
+
+```text
+Job-Sentinel/
+│
+├── backend/
+│   ├── __init__.py
+│   ├── app.py
+│   └── scam_detection.py
+│
+├── frontend/
+│   ├── assets/
+│   │   ├── css/
+│   │   └── images/
+│   │
+│   └── pages/
+│       ├── homepage.html
+│       ├── login.html
+│       ├── signup.html
+│       ├── profile.html
+│       ├── forgot-password.html
+│       ├── reset-password.html
+│       ├── admin_homepage.html
+│       ├── recruiter_homepage.html
+│       └── job_seeker_homepage.html
+│
+├── data/
+│   ├── agile_project.sql
+│   └── fake_job_postings.csv
+│
+├── docs/
+│   ├── README_SETUP.md
+│   └── Project Documentation
+│
+├── er diagrams/
+│   └── agile_project_er_diagram.html
+│
+├── app.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Backend
+
+* Python
+* Flask
+
+### Database
+
+* MySQL
+
+### Machine Learning
+
+* Scikit-learn
+* Pandas
+* NumPy
+
+### Development Tools
+
+* VS Code
+* Git
+* GitHub
+
+---
+
+## 📂 Database Setup
+
+### Step 1: Create Database
 
 ```sql
 CREATE DATABASE agile_project;
 USE agile_project;
-
-CREATE TABLE users 
-(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    role ENUM('Job Seeker', 'Recruiter') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 ```
 
-## Installation Steps
+### Step 2: Import Database
 
-1. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Import:
 
-2. **Configure database connection:**
-   - Open `backend/app.py`
-   - Update the `DB_CONFIG` dictionary with your MySQL credentials:
-     ```python
-     DB_CONFIG = {
-         'host': 'localhost',
-         'user': 'your_mysql_username',  # e.g., 'root'
-         'password': 'your_mysql_password',  # e.g., 'password123'
-         'database': 'agile_project'
-     }
-     ```
+```text
+data/agile_project.sql
+```
 
-3. **Start the Flask server:**
-   ```bash
-   python app.py
-   ```
-   The server will run on `http://localhost:5000`
+using MySQL Workbench or phpMyAdmin.
 
-4. **Open the signup page:**
-   - Open `frontend/pages/signup.html` in your browser
-   - Or serve it through a local web server
+---
 
-## Testing
+## ⚙️ Installation
 
-1. Fill out the signup form with:
-   - Full Name
-   - Email (must be unique)
-   - Password (minimum 6 characters)
-   - Confirm Password (must match)
-   - Role (Job Seeker or Recruiter)
+### Clone Repository
 
-2. Click "Sign Up"
+```bash
+git clone https://github.com/Priya-6124/Job-Sentinel.git
+cd Job-Sentinel
+```
 
-3. On success, you'll be redirected to the login page
+### Create Virtual Environment
 
-4. Verify the data in MySQL:
-   ```sql
-   SELECT * FROM users;
-   ```
+```bash
+python -m venv venv
+```
 
-## Troubleshooting
+### Activate Virtual Environment
 
-- **Database connection error**: Check MySQL is running and credentials are correct
-- **Email already exists**: Use a different email address
-- **Port 5000 already in use**: Change the port in the root `app.py`
-- **CORS errors**: Make sure `flask-cors` is installed
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/Mac:
+
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Run the Project
+
+Start the Flask application:
+
+```bash
+python app.py
+```
+
+or
+
+```bash
+python backend/app.py
+```
+
+The application will run on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+## 🧠 Machine Learning Module
+
+The scam detection module:
+
+* Trains on job posting datasets.
+* Uses text preprocessing techniques.
+* Predicts whether a job posting is legitimate or fraudulent.
+* Returns confidence scores for analysis.
+
+Dataset used:
+
+```text
+fake_job_postings.csv
+```
+
+---
+
+## 📸 Screens
+
+* Home Page
+* Login Page
+* Registration Page
+* Job Seeker Dashboard
+* Recruiter Dashboard
+* Admin Dashboard
+* Profile Management
+* Scam Detection Interface
+
+---
+
+## 🔐 Security Features
+
+* Password Hashing
+* Input Validation
+* SQL Injection Prevention
+* User Authentication
+* Secure Session Handling
+
+---
+
+## 📈 Future Enhancements
+
+* Email Verification
+* OTP Authentication
+* Resume Analysis
+* AI Chatbot Support
+* Real-time Scam Alerts
+* Advanced Fraud Analytics
+* Recruiter Verification System
+
+---
+
+## 👩‍💻 Author
+
+**Priya Kumari**
+
+### Project
+
+Job Sentinel – AI-Powered Job Scam Detection and Reporting Platform
